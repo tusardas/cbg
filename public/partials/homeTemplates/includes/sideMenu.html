@@ -1,0 +1,21 @@
+<div class="aside" tabindex="-1" role="dialog">
+	<div class="aside-dialog">
+		<div class="aside-content">
+			<div class="aside-header">
+				<h4 class="aside-title">Hi {{user.username}}</h4>
+			</div>
+			<div class="aside-body">
+				<ul class="playerMenu">
+					<li><button class="btn btn-lg btn-primary btn-block " ng-click="startNewGame()">New Game</button></li>
+					<li><button class="btn btn-lg btn-default btn-block ">Invite Friends</button></li>
+					<li><button class="btn btn-lg btn-default btn-block ">Join a Game</button></li>
+					<li><button class="btn btn-lg btn-primary btn-block ">Settings</button></li>
+					<li><button class="btn btn-lg btn-primary btn-block ">Change Password</button></li>
+				</ul>
+			</div>
+			<div class="aside-footer">
+				<button class="btn btn-lg btn-danger btn-block" ng-click="showSignoutModal()">Signout</button>
+			</div>
+		</div>
+	</div>
+</div>

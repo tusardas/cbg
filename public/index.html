@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<!-- cbgApp -->
+<html ng-app="cbgApp">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="shortcut icon" href="images/favicon.ico" />
+        <title ng-bind="title"></title>
+		
+		<link rel="stylesheet" href="css/lib/font-awesome.css">
+		<link rel="stylesheet" href="css/lib/bootstrap.min.css">
+		<link rel="stylesheet" href="css/lib/libs.min.css">
+		<link rel="stylesheet" href="css/lib/signin.css">
+
+		<!--Our Code : Styles -->
+		<link rel="stylesheet" href="css/main.css" />
+	</head>
+    <body>
+        <!-- Our Code : View Holder -->
+        <div ng-view="" class="slide"></div>
+		
+		<script src="js/lib/angular.min.js"></script>
+		<script src="js/lib/angular-route.min.js"></script>
+		<script src="js/lib/angular-animate.min.js"></script>
+		<script src="js/lib/angular-strap.js"></script>
+		<script src="js/lib/angular-strap.tpl.js"></script>
+        
+		<!-- Our Code : Controllers, Services, routs -->
+		<script src="js/ngApp.js"></script>
+        
+        <script src="js/controllers/ngUserController.js"></script>
+        <script src="js/services/ngUserService.js"></script>
+        
+        <script src="js/controllers/ngHomeController.js"></script>
+        <script src="js/services/ngHomeService.js"></script>
+        
+        <script src="js/controllers/ngGameController.js"></script>
+        <script src="js/services/ngGameService.js"></script>
+    </body>
+</html>
+

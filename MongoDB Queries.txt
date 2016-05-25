@@ -1,0 +1,126 @@
+-----------------------------------------------------------------------------------
+                            USEFUL MONGODB QUERIES
+-----------------------------------------------------------------------------------
+Consider we have a collection of 'cards' in our database. Each cricketer has following schema:
+
+{
+        "_id" : ObjectId("5598d3a1687189b12a40e64c"),
+        "name" : "Shane Warne",
+        "file" : "shane_warne_aus.jpg",
+        "country" : "AUS",
+        "summary" : "",
+        "dob" : "9/13/1969",
+        "tests_played" : 145,
+        "odis_played" : 194,
+        "test_runs" : 3154,
+        "odi_runs" : 1018,
+        "test_highest_runs" : 99,
+        "odi_highest_runs" : 55,
+        "test_runs_avg" : 17.32,
+        "odi_runs_avg" : 13.05,
+        "test_100s" : 0,
+        "test_50s" : 12,
+        "odi_100s" : 0,
+        "odi_50s" : 1,
+        "test_wickets" : 708,
+        "odi_wickets" : 293,
+        "test_10ws" : 10,
+        "test_5ws" : 37,
+        "odi_5ws" : 1,
+        "test_bbm_w" : 12,
+        "test_bbm_r" : 128,
+        "odi_bbm_w" : 5,
+        "odi_bbm_r" : 33
+}
+
+We may run following queries in the database:
+
+1. Find cards having more than 700 test wickets:  
+--------------------------------------------------------------------------------------
+db.cards.find(
+	{"test_wickets": {$gt : 700}},
+	{"name" : 1, "test_wickets" : 1}
+).limit(5).pretty();
+
+
+2. Find cards whoose name starts with 'Sh' character
+--------------------------------------------------------------------------------------
+db.cards.find(
+	{"name": /^Sh/ },
+	{"name" : 1}
+).limit(5).pretty();
+							
+
+3. Find cards whoose name contains with 'ter' character
+--------------------------------------------------------------------------------------
+db.cards.find(
+	{"name": /.*ter.*/},
+	{"name" : 1}
+).limit(5).pretty();
+
+
+4. Find cards whoose name ends with 'ar' character
+--------------------------------------------------------------------------------------
+db.cards.find(
+	{"name": /ar$/ },
+	{"name" : 1}
+).limit(5).pretty();
+
+
+5. Find cards having more than 250 test wickets and 10000 test runs:  
+--------------------------------------------------------------------------------------
+db.cards.find(
+	{"test_wickets": {$gt : 250}, "test_runs": {$gt : 10000}}, 
+	{"name" : 1, "test_wickets" : 1, "test_runs" : 1}
+).pretty();
+
+
+6. Find cards in Zimbabwe and Bangladesh:  
+--------------------------------------------------------------------------------------
+db.cards.find(
+	{"country": {$in : ['ZIM', 'BD']}}, 
+	{"name" : 1, "country" : 1}
+).limit(5).pretty();
+
+
+7. Find cards who played more tests and odis
+--------------------------------------------------------------------------------------
+db.cards.find(
+	{$where : function() { return obj.tests_played >  obj.odis_played } }, 
+	{"name" : 1, "tests_played" : 1, "odis_played" : 1}
+).limit(5).pretty();
+
+
+8. Find cricketer with max test wickets
+--------------------------------------------------------------------------------------
+db.cards.find(
+	{},
+	{"name" : 1, "test_wickets" : 1}
+).sort({"test_wickets" : -1}).limit(1).pretty();
+
+
+9. Find cricketer with min test played
+--------------------------------------------------------------------------------------
+db.cards.find(
+	{},
+	{"name" : 1, "tests_played" : 1}
+).sort({"tests_played" : 1}).limit(1).pretty();
+
+
+10. Total odi runs scored by Indian players 'Sachin', 'Sourav' and 'Sehwag'
+--------------------------------------------------------------------------------------
+db.cards.aggregate({ $match : {
+	$or: [
+		{name: /^Sachin/ },
+		{name: /^Sourav/ },
+		{name: /Sehwag$/ },
+	],
+	$and: [
+		{country : 'IND'}
+	]
+} },
+{ $group: {_id : null, sum: { $sum : "$odi_runs"} }},
+{ $project : {_id : 0, sum : 1}}
+);
+
+

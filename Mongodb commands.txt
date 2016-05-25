@@ -1,0 +1,37 @@
+1) Download a mongodb zip file and extract it in some directory. 
+
+2) Manually create 'data\db' path inside the mongodb home. Now add the 'bin' folder to your 'path' environment variable
+
+3) To start mongodb create a file called 'mongod.conf' with following data:
+
+logpath=E:\mongodb-win32-x86_64-2008plus-2.5.1\log\mongod.log
+dbpath=E:\mongodb-win32-x86_64-2008plus-2.5.1\data\db
+#auth=true
+
+4) Now run command:
+
+mongod --config="E:\mongodb-win32-x86_64-2008plus-2.5.1\mongod.conf" <ENTER>
+
+This will start mongod. 
+
+5) Now login to mongodb from another prompt:
+mongo <ENTER>
+
+show databases <ENTER>
+use admin <ENTER>
+show users
+db.addUser('adminuser', 'admin123');
+
+6) Now your 'admin' database has a user 'adminuser' with password = 'admin123'. Now we will create a user for 'test' database.
+use test <ENTER>
+show users
+db.addUser('testuser', 'test123');
+
+7) Stop mongodb. Remove the '#' comment from 'mongod.conf' file to enable authentication. now run the same command in step 4 to start 'mongod' with 'auth' enabled.
+
+8) this time you can open another command prompt and login to mongodb by following command:
+mongo test -u testuser -p <ENTER>
+
+9) Import from CSV file into mongodb:
+mongoimport -d test -c countries --type csv --file "C:\Users\Tushar\Desktop\Book1.csv" --headerline -u testuser -p
+

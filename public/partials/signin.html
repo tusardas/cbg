@@ -1,0 +1,12 @@
+<form class="form-signin" role="form" data-ng-submit="signin()">
+    <h2 class="form-signin-heading center">{{appName}}</h2>
+    <div id="signinError">{{signinError}}</div>
+    <input type="text" class="form-control" placeholder="Email" data-ng-model="email" required autofocus>
+    <input type="password" class="form-control" placeholder="Password" data-ng-model="password" required>
+    <!--
+    <label class="checkbox">
+        <input type="checkbox" value="remember-me"> Remember me
+    </label>
+    -->
+    <button class="btn btn-lg btn-primary btn-block {{signinButtonCss}}" type="submit">{{signinButton}}</button>
+</form>

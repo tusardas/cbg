@@ -1,0 +1,15 @@
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="$hide()">×</button>
+			<h4 class="modal-title">{{appName}}</h4>
+		</div>
+		<div class="modal-body">
+            <h4>Would you like to resume last game ?</h4>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="fl btn btn-lg btn-success" ng-click="discardAndStartNewGame()">Start Fresh</button>
+			<button type="button" class="btn btn-lg btn-primary" ng-click="resumeGame()">Resume</button>
+		</div>
+	</div>
+</div>
