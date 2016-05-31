@@ -7,16 +7,20 @@ var database = require('./config/database'); 			// load the database config
 var morgan   = require('morgan');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
-
 // configuration ===============================================================
 mongoose.connect(database.url),
     User = require('./app/models/user'),
     Player = require('./app/models/player'),
     Card = require('./app/models/card'); 	// connect to mongoDB database on modulus.io
+    
+var securityService = require('./app/services/securityService');
 
+//saving "cpu" user ============================================================
+var cpuPass = securityService.getEncryptedPassword("cpu", "");
 var cpuUser = new User({
 	username: 'cpu',
-	password: 'cpu'
+	password: cpuPass["encryptedPassword"],
+    salt: cpuPass["salt"]
 });
 cpuUser.save(function(err) {
     if (err) {
@@ -36,9 +40,12 @@ cpuUser.save(function(err) {
     }
 });
 
+//saving "test" user ============================================================
+var testPass = securityService.getEncryptedPassword("test", "");
 var testUser = new User({
-	username: 'tusar',
-	password: '123'
+	username: 'test',
+	password: testPass["encryptedPassword"],
+    salt: testPass["salt"]
 });
 testUser.save(function(err) {
     if (err) {
@@ -57,7 +64,6 @@ testUser.save(function(err) {
         });
     }
 });
-
 
 app.use(express.static(__dirname + '/public')); 		// set the static files location /public/img will be /img for users
 app.use(morgan('dev')); // log every request to the console

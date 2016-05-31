@@ -1,14 +1,15 @@
 {
-    "name"         : "cbg",        
-    "version"      : "1.0.0",
-    "description"  : "Cbg Card Game",
-    "main"         : "server.js",
-    "author"       : "tusar",
-    "dependencies" : {
-        "express"         : "^4.8.2",
-        "mongoose"        : "~3.8.13",
-        "morgan"          : "~1.1.1",
-        "body-parser"     : "~1.4.3",
-        "method-override" : "~2.1.1"
-    }
+  "name": "cbg",
+  "version": "1.0.0",
+  "description": "Cbg Card Game",
+  "main": "server.js",
+  "author": "tusar",
+  "dependencies": {
+    "express": "~4.13.4",
+    "mongoose": "~4.4.19",
+    "morgan": "~1.7.0",
+    "body-parser": "~1.15.1",
+    "method-override": "~2.3.6",
+    "bcrypt-nodejs": "0.0.3"
+  }
 }

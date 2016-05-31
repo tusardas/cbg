@@ -6,16 +6,17 @@ var GameState = require('../models/gameState');
 var Card = require('../models/card');
 var CardDistribution = require('../models/cardDistribution');
 
+var securityService = require('./securityService');
+
 module.exports = {
     verifyUser : function (req, res) {
         var username = req.body.email;
         var password = req.body.password;
         if(username === 'cpu') {
-            password = ''; //restricting login for cpu user
+            return fallback(res); //restricting login for cpu user
         }
         User.findOne({
-            username : username, 
-            password : password 
+            username : username
         }, 
         function(err, user) {
             if(err) {
@@ -23,13 +24,16 @@ module.exports = {
                 return fallback(res);
             }
             if(user !== null) {
-                user.password = '';
-                //res.json(user);
-                return getPlayerAndExistingGame(res, user);
+                var authVerificationStatus = securityService.comparePassword(password, user.salt, user.password);
+                console.log("authVerificationStatus for user '" + user.username + "' ---> " + authVerificationStatus);
+                if(authVerificationStatus) {
+                    user.password = '';
+                    user.salt = '';
+                    //res.json(user);
+                    return getPlayerAndExistingGame(res, user);
+                }
             }
-            else {
-                return fallback(res);
-            }
+            return fallback(res);
         });
     },
     

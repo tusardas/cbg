@@ -16,7 +16,7 @@ cbgApp.controller('ngGameController', function($rootScope, $scope, $alert, userF
                 break;
             }
         }
-        var nextPlayer = game._gameState._nextPlayer;
+        var nextPlayer = currentGame._gameState._nextPlayer;
         if(player._id !== nextPlayer._id) {
             playCard(""); //CPU's automatic turn
         }
