@@ -1,3 +1,6 @@
+This is still work-in-progress. It is basically a card game. Similar to the one I played in my school days. Cards with pictures and attributes of wrestling superstars. Here a difference is I am using international cricket players and their attributes. We used to call this game as 'Trump Card' in my school days. Using 'MEAN' stack implementation. Follow the below steps to get started with the setup.
+
+
 Mongodb start command:
 mongod --config="D:\e\mongodb-win32-x86_64-2008plus-2.5.1\mongod.conf"
 
