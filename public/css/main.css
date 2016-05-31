@@ -61,8 +61,8 @@
 
 /**CARD**/
 .card {
-    max-width: 172px;
-    max-height: 212px;
+    width: 172px;
+    height: 212px;
     padding : 5px;
     border-radius: 3px;
     cursor:pointer;
@@ -70,18 +70,76 @@
     color: #23527c;
     border: 1px solid #23527c;
 }
-
-.card>img.pic {
+.cardPic {
+    float:left;
     border: 0px;
     width: 160px;
     height: 200px;
+    margin: 0px;
+}
+.cardInfo {
+    float:left;
+    list-style: none;
+    padding: 0px 2px 0px 2px;
+    margin: 0px;
+    width: 160px;
+    height: 200px;
+    border: 0px;
+}
+.cardInfo>li{
+    padding: 1px 0px 1px 0px;
 }
 
 /*Others*/
 .fr {
     float: right;
 }
-
 .fl {
     float:left;
+}
+.hide {
+    display: none;
+}
+
+/*Game console design*/
+.gameState {
+    clear: both;
+    text-align: center;
+}
+.placedCards {
+    margin-top: 5px;
+    clear: both;
+}
+.playersCards {
+    clear: both;
+}
+.placedCardsBundle {
+    padding: 0px;
+    list-style: none;
+    white-space: nowrap;
+    text-align: center;
+}
+.playedCard {
+    display: inline-block;
+    padding: 20px 5px;
+    border: 1px solid;
+    border-radius: 3px;
+}
+.versus {
+    display: inline-block;
+    padding: 20px 0px;
+}
+.playersCardsBundle {
+    list-style: none;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+.playersCardsBundle>.card{
+    display: inline-block;
+    margin: 0px 5px 0px 5px;
+}
+.controls {
+    clear: both;
+    margin: 5px 0px 0px 2px;
+    text-align: center;
 }

@@ -24,7 +24,7 @@ mongo localhost:27017/cbg -u cbguser -p
 Store cricketers data:
 mongoimport -d cbg -c cards --type csv --file "D:\e\funspace\nodeprograms\cbg\Book1.csv" --headerline -u cbguser -p
 
-Update cards with random number for shuffling properly from database login:
+Update cards with random number for shuffling properly. Run queries after login into database:
 db.cards.dropIndex( { shuffle: '2d' } );
 db.cards.find({shuffle: {$exists : false }}).forEach(function(cards) { db.cards.update({_id: cards._id}, {$set: {shuffle: [Math.random(), 0]}}); });
 db.cards.ensureIndex( { shuffle: '2d' } );

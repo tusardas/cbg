@@ -5,5 +5,8 @@ module.exports = {
     },
     deleteGame : function (req, res) {
         return cbgService.deleteGame(req, res);
-    } 
+    },
+    playTurn : function (req, res) {
+        return cbgService.playTurn(req, res);
+    }
 };

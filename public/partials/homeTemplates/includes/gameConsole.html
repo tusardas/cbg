@@ -1,5 +1,43 @@
 <div ng-controller="ngGameController">
-    <div class="card" ng-repeat="card in cards">
-        <img class="pic" src="images/guns/{{card.file}}" alt="{{card.name}}"/>
+    <div class="gameState">
+        <div class="gameStatus">{{currentGame._gameState.gameStatus === 1 ? "Game in progress" : "TODO"}}</div>
+        <div class="nextTurn">{{currentGame._gameState._nextPlayer.nickname}}'s turn</div>
+    </div>
+    <div class="placedCards">
+        <ul class="placedCardsBundle">
+            <li class="playedCard" ng-show="{{notPlaced1}}">
+                Waiting
+            </li>
+            <li class="versus">
+                VS
+            </li>
+            <li class="playedCard" ng-show="{{notPlaced2}}">
+                Waiting
+            </li>
+        </ul>
+    </div>
+    <div class="playersCards">
+        <ul class="playersCardsBundle">
+            <li class="card" ng-repeat="card in cards" data-card="{{card._id}}" ng-click="toggoleCardView($event)">
+                <img class="cardPic " src="images/guns/{{card.file}}" alt="{{card.name}}"/>
+                <ul class="cardInfo hide">
+                    <li>{{card.name}} ({{card.country}})</li>
+                    <li>
+                        {{currentGame._gameSettings.cricketFormat.toUpperCase()}}s Played: 
+                        {{card[currentGame._gameSettings.cricketFormat+"s_played"]}}
+                    </li>
+                    <li>Runs: {{card[currentGame._gameSettings.cricketFormat+"_runs"]}}</li>
+                    <li>Avg: {{card[currentGame._gameSettings.cricketFormat+"_runs_avg"]}}</li>
+                    <li>100s: {{card[currentGame._gameSettings.cricketFormat+"_100s"]}}</li>
+                    <li>50s: {{card[currentGame._gameSettings.cricketFormat+"_50s"]}}</li>
+                    <li>Wickets: {{card[currentGame._gameSettings.cricketFormat+"_wickets"]}}</li>
+                    <li>10 Wickets: {{card[currentGame._gameSettings.cricketFormat+"_10ws"]}}</li>
+                    <li>5 Wickets: {{card[currentGame._gameSettings.cricketFormat+"_5ws"]}}</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="controls">
+        <button class="btn btn-lg btn-primary" ng-click="">Play Card</button>
     </div>
 </div>

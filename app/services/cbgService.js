@@ -1,6 +1,8 @@
 var User = require('../models/user');
 var Player = require('../models/player');
 var Game = require('../models/game');
+var GameSettings = require('../models/gameSettings');
+var GameState = require('../models/gameState');
 var Card = require('../models/card');
 var CardDistribution = require('../models/cardDistribution');
 
@@ -42,7 +44,7 @@ module.exports = {
                 return fallback(res);
             }
             else {
-                return saveGame(player, res);
+                return createGame(player, res);
             }
         });
     },
@@ -55,6 +57,22 @@ module.exports = {
             }
             else {
                 res.json({status : "success"});
+            }
+        });
+    },
+    
+    playTurn : function(req, res) {
+        Game.findOne({ _id: req.body.gameid}, function(err, game) {
+            if (err) {
+                console.log("error in loading player while creating new game ---> " + err);
+                return fallback(res);
+            }
+
+            if(game === null) {
+                return fallback(res);
+            }
+            else {
+                return playTurn(game, req.body.cardid, res);
             }
         });
     }
@@ -78,13 +96,7 @@ function getPlayerAndExistingGame(res, user) {
         }
         else {
             Game.findOne({
-                    players : {$in : [existingPlayer]},
-                    $and : [{
-                        $or : [
-                            {gameState : 1}, 
-                            {gameState : 2}
-                        ] 
-                    }]
+                    _players : {$in : [existingPlayer]}
                 },
                 function(err, existingGame){
                     if (err) {
@@ -98,37 +110,67 @@ function getPlayerAndExistingGame(res, user) {
     });
 }
 
-function saveGame(player, res) {
-    var CARDS_PER_PLAYER = 10;
-    //var rand = Math.floor(Math.random()*13);
-    //Card.find().skip(rand).limit(CARDS_PER_PLAYER*2).exec(function(err, result) {
-    Card.find( { shuffle : { $near : [Math.random(), 0] } } ).limit(2).limit(CARDS_PER_PLAYER*2).exec(function(err, result) {
+function createGame(player1, res) {
+    //TODO: will be input from User
+    var numberOfPlayers = 2;
+    var cricketFormat = "test";
+    var gameMode = 1;
+    var cardsPerPlayer = 15;
+    
+    var gameSettings = new GameSettings({
+        numberOfPlayers:numberOfPlayers, 
+        cricketFormat : cricketFormat,
+        gameMode : gameMode,
+        cardsPerPlayer : cardsPerPlayer
+    });
+    
+    Card.find( { shuffle : { $near : [Math.random(), 0] } } ).limit(cardsPerPlayer*numberOfPlayers).exec(function(err, result) {
         User.findOne({ username : 'cpu' }, function(err, cpuUser) {
             if (err) {
                 console.log("error finding cpu user ---> " + err);
                 return fallback(res);
             }
-            Player.findOne({ _user : cpuUser }, function(err, cpuPlayer) {
+            Player.findOne({ _user : cpuUser }, function(err, player2) {
                 if (err) {
                     console.log("error finding cpu player ---> " + err);
                     return fallback(res);
                 }
-                var cpuCards = new Array();
-                var playerCards = new Array();
-                for(var i = 0; i < CARDS_PER_PLAYER; i++) {
-                    cpuCards.push(result[i]);
-                    playerCards.push(result[(CARDS_PER_PLAYER*2)-(i+1)]);
+                var cardsPlayer1 = new Array();
+                var cardsPlayer2 = new Array();
+                for(var i = 0; i < cardsPerPlayer; i++) {
+                    cardsPlayer1.push(result[i]);
+                    cardsPlayer2.push(result[(cardsPerPlayer*numberOfPlayers)-(i+1)]);
                 }
-                saveGameResources(player, cpuPlayer, playerCards, cpuCards, res);
+                saveGame(gameSettings, player1, player2, cardsPlayer1, cardsPlayer2, res);
             });
         });
     });
 }
 
-function saveGameResources(player, cpuPlayer, playerCards, cpuCards, res) {
-    var cpuCd = new CardDistribution({ cdType : 1, player : cpuPlayer, cards: cpuCards});
-    var playerCd = new CardDistribution({ cdType : 1, player : player, cards: playerCards});
-    var newGame = new Game({gameType: 1, gameState: 1, players: [cpuPlayer, player], resources: [cpuCd, playerCd]});
+function saveGame(gameSettings, player1, player2, cardsPlayer1, cardsPlayer2, res) {
+    var cdPlayer1 = new CardDistribution({ 
+        cdType : 1, 
+        _player : player1, 
+        _cards: cardsPlayer2
+    });
+    var cdPlayer2 = new CardDistribution({ 
+        cdType : 1, 
+        _player : player2, 
+        _cards: cardsPlayer1
+    });
+    
+    var firstPlayer = parseInt((Math.random()*10)%2, 10) === 0 ? player1 : player2; //toss for nextTurn
+    var gameState = new GameState({ 
+        gameStatus : 1, 
+        _nextPlayer : firstPlayer
+    });
+    
+    var newGame = new Game({
+        _gameSettings: gameSettings, 
+        _gameState: gameState, 
+        _players: [player1, player2], 
+        _cardDistributions: [cdPlayer1, cdPlayer2]
+    });
     newGame.save(function(err) {
         if (err) {
             console.log("error saving new game ---> " + err);

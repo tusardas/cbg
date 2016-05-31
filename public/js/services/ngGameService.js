@@ -1,7 +1,7 @@
 cbgApp.factory('ngGameService', ['$http',function($http) {
 	return {
-		saveGame : function(gameData) {
-			return $http.post('/rest/xyz', gameData);
+        playTurn : function(gameData) {
+			return $http.post('/rest/playTurn', gameData);
 		}
 	};
 }]);

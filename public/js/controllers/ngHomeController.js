@@ -1,4 +1,4 @@
-cbgApp.controller('ngHomeController', function($rootScope, $scope, $location, $modal, $aside, $alert, userFactory, gameFactory, ngHomeService, cbgFactory) {
+cbgApp.controller('ngHomeController', function($rootScope, $scope, $location, $templateCache, $route, $modal, $aside, $alert, userFactory, gameFactory, ngHomeService, cbgFactory) {
     $rootScope.title = cbgFactory.getAppName() + " : Home";
     var user = userFactory.getUser();
     $scope.appName = cbgFactory.getAppName();
@@ -37,18 +37,6 @@ cbgApp.controller('ngHomeController', function($rootScope, $scope, $location, $m
 		backdrop: false,
 		show: false
 	});
-    
-    var initGame = function() {
-        var game = gameFactory.getCurrentGame();
-        var player = gameFactory.getCurrentPlayer();
-        for(i=0; i < 2; i++) {
-            if(game.resources[i].player ===  player._id) {
-                console.log(" length of cards ---> " + game.resources[i].cards);
-                $rootScope.cards = game.resources[i].cards;
-            }
-        }
-        $scope.templateURI = 'partials/homeTemplates/includes/gameConsole.html';
-    };
     
     $scope.showSignoutModal = function() {
    		sideMenu.hide();
@@ -99,7 +87,9 @@ cbgApp.controller('ngHomeController', function($rootScope, $scope, $location, $m
                     newGameModal.hide();
                     if(newGame.status !== "failed") {
                         gameFactory.setCurrentGame(newGame);
-                        initGame();
+                        //var currentPageTemplate = $route.current.templateUrl;
+                        //$templateCache.remove(currentPageTemplate);
+                        $scope.templateURI = 'partials/homeTemplates/includes/gameConsole.html';
                     }
                     else {
                         $scope.existingErrorAlert = $alert({title: "SERVER ERROR:", content: "Could not save new game", type: 'danger', show: true});
@@ -123,10 +113,6 @@ cbgApp.controller('ngHomeController', function($rootScope, $scope, $location, $m
             return false;
         });
     };
-    
-    if(gameFactory.getCurrentGame() !== undefined) {
-        $scope.resumePrompt();
-    }
     
     $scope.discardAndStartNewGame = function() {
         newGameModal.$promise.then(function() {
@@ -153,12 +139,13 @@ cbgApp.controller('ngHomeController', function($rootScope, $scope, $location, $m
             });
         });
     };
-    
     $scope.resumeGame = function() {
         if($scope.existingErrorAlert !== undefined) {
             $scope.existingErrorAlert.hide();
         }
-        initGame();
+        $scope.templateURI = 'partials/homeTemplates/includes/gameConsole.html';
     };
-    
+    if(gameFactory.getCurrentGame() !== undefined) {
+        $scope.resumePrompt();
+    }
 });

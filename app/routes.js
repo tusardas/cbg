@@ -27,4 +27,11 @@ module.exports = function(app) {
 		// use mongoose to save new game
 		gameController.deleteGame(req, res);
 	});
+    
+    // api ---------------------------------------------------------------------
+	// save new game
+	app.post('/rest/playTurn', function(req, res) {
+		// use mongoose to save new game
+		gameController.playTurn(req, res);
+	});
 };
