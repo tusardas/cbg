@@ -1,0 +1,103 @@
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" ng-click="$hide()">×</button>
+			<h4 class="modal-title">{{appName}}</h4>
+		</div>
+		<div class="modal-body">
+            <h4>
+                {{selectedCard.name}}
+            </h4>
+            <h6>
+                {{selectedCard.country}}
+            </h6>
+            <div>
+                <img  src="images/guns/{{selectedCard.file}}" alt="{{selectedCard.name}}" width="40" height="60"/>
+            </div>
+            <div>
+                <span>Select a {{currentGame._gameSettings.cricketFormat}} record to play this card</span>
+                <ul>
+                    <li>
+                        <input 
+                            type="radio" 
+                            name="recordAttribute" 
+                            class="" 
+                            data-recordAttribute="_runs" 
+                            ng-click="setSelectedAttribute('_runs')"
+                            />
+                        Runs: {{selectedCard[currentGame._gameSettings.cricketFormat+"_runs"]}}
+                    </li>
+                    <li>
+                        <input 
+                            type="radio" 
+                            name="recordAttribute" 
+                            class="" 
+                            data-recordAttribute="_runs_avg" 
+                            ng-click="setSelectedAttribute('_runs_avg')"
+                            />
+                        Avg: {{selectedCard[currentGame._gameSettings.cricketFormat+"_runs_avg"]}}
+                    </li>
+                    <li>
+                        <input 
+                            type="radio" 
+                            name="recordAttribute" 
+                            class="" 
+                            data-recordAttribute="_100s" 
+                            ng-click="setSelectedAttribute('_100s')"
+                            />
+                        100s: {{selectedCard[currentGame._gameSettings.cricketFormat+"_100s"]}}
+                    </li>
+                    <li>
+                        <input 
+                            type="radio" 
+                            name="recordAttribute" 
+                            class="" 
+                            data-recordAttribute="_50s" 
+                            ng-click="setSelectedAttribute('_50s')"
+                            />
+                        50s: {{selectedCard[currentGame._gameSettings.cricketFormat+"_50s"]}}
+                    </li>
+                    <li>
+                        <input 
+                            type="radio" 
+                            name="recordAttribute" 
+                            class="" 
+                            data-recordAttribute="_wickets" 
+                            ng-click="setSelectedAttribute('_wickets')"
+                            />
+                        Wickets: {{selectedCard[currentGame._gameSettings.cricketFormat+"_wickets"]}}
+                    </li>
+                    <li>
+                        <input 
+                            type="radio" 
+                            name="recordAttribute" 
+                            class="" 
+                            data-recordAttribute="_10ws" 
+                            ng-click="setSelectedAttribute('_10ws')"
+                            />
+                        10 Wickets: {{selectedCard[currentGame._gameSettings.cricketFormat+"_10ws"]}}
+                    </li>
+                    <li>
+                        <input 
+                            type="radio" 
+                            name="recordAttribute" 
+                            class="" 
+                            data-recordAttribute="_5ws" 
+                            ng-click="setSelectedAttribute('_5ws')"
+                            />
+                        5 Wickets: {{selectedCard[currentGame._gameSettings.cricketFormat+"_5ws"]}}
+                    </li>
+                </ul>
+            </div>
+		</div>
+		<div class="modal-footer">
+            <button 
+                type="button" 
+                class="fl btn btn-lg {{selectedAttribute.length > 0 ? 'btn-primary' : ''}}" 
+                ng-click="placeCard('{{selectedCard._id}}')"
+            > 
+                Play This Card
+            </button>
+		</div>
+	</div>
+</div>

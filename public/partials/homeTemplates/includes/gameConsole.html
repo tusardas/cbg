@@ -5,22 +5,35 @@
     </div>
     <div class="placedCards">
         <ul class="placedCardsBundle">
-            <li class="playedCard" ng-show="{{notPlaced1}}">
-                Waiting
+            <li class="playedCard">
+                <span class="waitingCard" ng-show="{{playedCard1 == undefined}}">Waiting</span>
+                <img 
+                    ng-show="{{playedCard1 != undefined}}"
+                    class="cardPic smallCardPic" 
+                    src="images/guns/{{playedCard1 != undefined ? playedCard1._card.file : ''}}" 
+                    alt="{{playedCard1 != undefined ? playedCard1._card.name : ''}}"
+                />
+
             </li>
             <li class="versus">
                 VS
             </li>
-            <li class="playedCard" ng-show="{{notPlaced2}}">
-                Waiting
+            <li class="playedCard">
+                <span class="waitingCard" ng-show="{{playedCard2 == undefined}}">Waiting</span>
+                <img 
+                    ng-show="{{playedCard2 != undefined}}"
+                    class="cardPic smallCardPic" 
+                    src="images/guns/{{playedCard2 != undefined ? playedCard2._card.file : ''}}" 
+                    alt="{{playedCard2 != undefined ? playedCard2._card.name : ''}}"
+                />
             </li>
         </ul>
     </div>
     <div class="playersCards">
         <ul class="playersCardsBundle">
-            <li class="card" ng-repeat="card in cards" data-card="{{card._id}}" ng-click="toggoleCardView($event)">
-                <img class="cardPic " src="images/guns/{{card.file}}" alt="{{card.name}}"/>
-                <ul class="cardInfo hide">
+            <li class="card" ng-repeat="card in cards" data-card="{{card._id}}" ng-click="selectCard($event, card._id)">
+                <img class="cardPic {{selectedCardId == card._id ? 'hide' : ''}}" src="images/guns/{{card.file}}" alt="{{card.name}}"/>
+                <ul class="cardInfo {{selectedCardId == card._id ? '' : 'hide'}}">
                     <li>{{card.name}} ({{card.country}})</li>
                     <li>
                         {{currentGame._gameSettings.cricketFormat.toUpperCase()}}s Played: 
@@ -38,6 +51,6 @@
         </ul>
     </div>
     <div class="controls">
-        <button class="btn btn-lg btn-primary" ng-click="">Play Card</button>
+        <button class="btn btn-lg {{(selectedCardId == undefined || currentPlayer._id != nextPlayer._id ) ? '' : 'btn-primary'}}" ng-click="initCardAttributes()">Play Card</button>
     </div>
 </div>

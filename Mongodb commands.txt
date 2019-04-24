@@ -4,13 +4,13 @@
 
 3) To start mongodb create a file called 'mongod.conf' with following data:
 
-logpath=E:\mongodb-win32-x86_64-2008plus-2.5.1\log\mongod.log
-dbpath=E:\mongodb-win32-x86_64-2008plus-2.5.1\data\db
+logpath=D:\installations\mongodb-win32-x86_64-2008plus-2.5.1\log\mongod.log
+dbpath=D:\installations\mongodb-win32-x86_64-2008plus-2.5.1\data\db
 #auth=true
 
 4) Now run command:
 
-mongod --config="E:\mongodb-win32-x86_64-2008plus-2.5.1\mongod.conf" <ENTER>
+mongod --config="D:\installations\mongodb-win32-x86_64-2008plus-2.5.1\mongod.conf" <ENTER>
 
 This will start mongod. 
 

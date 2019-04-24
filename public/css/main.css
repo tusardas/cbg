@@ -119,15 +119,27 @@
     white-space: nowrap;
     text-align: center;
 }
+.placedCardsBundle > li {
+    float: left;
+}
 .playedCard {
     display: inline-block;
-    padding: 20px 5px;
     border: 1px solid;
     border-radius: 3px;
+}
+.waitingCard {
+    padding: 20px 3px;
+}
+.smallCardPic {
+    width: 50px !important;
+    height: 60px !important;
 }
 .versus {
     display: inline-block;
     padding: 20px 0px;
+}
+.playersCards {
+    clear: both;
 }
 .playersCardsBundle {
     list-style: none;

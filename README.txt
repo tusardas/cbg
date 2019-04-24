@@ -2,13 +2,14 @@ This is still work-in-progress. It is basically a card game. Similar to the one 
 
 
 Mongodb start command:
-mongod --config="D:\e\mongodb-win32-x86_64-2008plus-2.5.1\mongod.conf"
+mongod --config="D:\installations\mongodb-win32-x86_64-2008plus-2.5.1\mongod.conf"
 
 
 Enable Authentication:
 1) Start mongod without 'auth=true'
 
 2) connect to database in console using 'mongo'
+command_prompt> mongo <ENTER>
 
 3) Create system administrator;
 use admin;

@@ -69,7 +69,7 @@ cbgApp.controller('ngHomeController', function($rootScope, $scope, $location, $t
             $scope.existingErrorAlert = sideMenu;
 		});
     };
-
+    
     $scope.startNewGame = function() {
         if(gameFactory.getCurrentGame() !== undefined) {
             $scope.resumePrompt();
@@ -85,11 +85,15 @@ cbgApp.controller('ngHomeController', function($rootScope, $scope, $location, $t
                     playerid : gameFactory.getCurrentPlayer()._id
                 }).success(function(newGame) {
                     newGameModal.hide();
-                    if(newGame.status !== "failed") {
+                    if(newGame._gameState.gameStatus === 1) {
                         gameFactory.setCurrentGame(newGame);
-                        //var currentPageTemplate = $route.current.templateUrl;
-                        //$templateCache.remove(currentPageTemplate);
+                        var callingFrom = $scope.templateURI;
                         $scope.templateURI = 'partials/homeTemplates/includes/gameConsole.html';
+                        if(callingFrom !== "partials/homeTemplates/includes/starter.html") {
+                            var currentPageTemplate = $route.current.templateUrl;
+                            $templateCache.remove(currentPageTemplate);
+                            $route.reload();
+                        }
                     }
                     else {
                         $scope.existingErrorAlert = $alert({title: "SERVER ERROR:", content: "Could not save new game", type: 'danger', show: true});
@@ -145,7 +149,12 @@ cbgApp.controller('ngHomeController', function($rootScope, $scope, $location, $t
         }
         $scope.templateURI = 'partials/homeTemplates/includes/gameConsole.html';
     };
-    if(gameFactory.getCurrentGame() !== undefined) {
+    if(gameFactory.getCurrentGame() !== undefined
+            && gameFactory.getCurrentGame()._gameState.gameStatus !== 1) {
         $scope.resumePrompt();
+    }
+    if(gameFactory.getCurrentGame() !== undefined
+            && gameFactory.getCurrentGame()._gameState.gameStatus === 1) {
+        $scope.resumeGame();
     }
 });
