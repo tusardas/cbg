@@ -1,0 +1,1 @@
+This is a work-in-progress card game. Similar to the one I played in my school days. Cards with pictures and various statistics and records of wrestling superstars. Here a difference is I am using international cricket players and their statistics and records. We used to call this game as 'Trump Card' in my school days. Using 'MEAN' stack implementation.
