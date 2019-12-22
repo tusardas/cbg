@@ -6,10 +6,9 @@
     <div class="placedCards">
         <ul class="placedCardsBundle">
             <li class="playedCard">
-                <span class="waitingCard" ng-show="{{playedCard1 == undefined}}">Waiting</span>
+                <span class="waitingCard {{playedCard1 == undefined ? '' : 'hide' }}">Waiting</span>
                 <img 
-                    ng-show="{{playedCard1 != undefined}}"
-                    class="cardPic smallCardPic" 
+                    class="cardPic smallCardPic {{playedCard1 != undefined ? '' : 'hide' }}" 
                     src="images/guns/{{playedCard1 != undefined ? playedCard1._card.file : ''}}" 
                     alt="{{playedCard1 != undefined ? playedCard1._card.name : ''}}"
                 />
@@ -19,10 +18,9 @@
                 VS
             </li>
             <li class="playedCard">
-                <span class="waitingCard" ng-show="{{playedCard2 == undefined}}">Waiting</span>
+                <span class="waitingCard {{playedCard2 == undefined ? '' : 'hide' }}">Waiting</span>
                 <img 
-                    ng-show="{{playedCard2 != undefined}}"
-                    class="cardPic smallCardPic" 
+                    class="cardPic smallCardPic {{playedCard2 != undefined ? '' : 'hide' }}" 
                     src="images/guns/{{playedCard2 != undefined ? playedCard2._card.file : ''}}" 
                     alt="{{playedCard2 != undefined ? playedCard2._card.name : ''}}"
                 />

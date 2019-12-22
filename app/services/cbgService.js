@@ -170,7 +170,9 @@ function saveGame(gameSettings, player1, player2, cardsPlayer1, cardsPlayer2, re
     var gameState = new GameState({ 
         gameStatus : 1, 
         //_nextPlayer : firstPlayer
-        _nextPlayer : player1
+        _nextPlayer : player1,
+        _server : player1,
+        _challenger : player2
     });
     
     var newGame = new Game({

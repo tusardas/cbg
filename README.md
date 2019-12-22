@@ -2,37 +2,45 @@ This is still work-in-progress. It is basically a card game. Similar to the one 
 
 
 Mongodb start command:
-mongod --config="D:\installations\mongodb-win32-x86_64-2008plus-2.5.1\mongod.conf"
+mongod --config="D:\installations\mongodb-4.2.2\mongod.conf" --noauth
 
+mongod.conf contains:
+logpath=D:\installations\mongodb-4.2.2\log\mongod.log
+dbpath=D:\installations\mongodb-4.2.2\data\db
 
-Enable Authentication:
-1) Start mongod without 'auth=true'
+Make sure to create these directories in your file system.
+
+How to enable authentication in mongodb:
+
+Mongo provides authentication out-of-the box, but you need to set it up first.
+
+1) Start mongodb with above command - 
+mongod --config="D:\installations\mongodb-4.2.2\mongod.conf" --noauth
 
 2) connect to database in console using 'mongo'
-command_prompt> mongo <ENTER>
+command_prompt>mongo <ENTER>
 
 3) Create system administrator;
 use admin;
 show users; //this should give empty set, if not delete users
-db.removeUser('username');
-db.addUser('adminuser', 'admin123');
+db.createUser( {user:"adminuser", pwd:"admin123", roles:["root"]} );
 
 4) Create administrator for single db:
 use cbg;
-db.addUser('cbguser', 'cbg123');
+db.createUser( {user:"cbguser", pwd:"cbg123", roles:["dbAdmin"]} );
 
 Conncet to mongodb:
 mongo localhost:27017/cbg -u cbguser -p
 
 
 Store cricketers data:
-mongoimport -d cbg -c cards --type csv --file "D:\e\funspace\nodeprograms\cbg\Book1.csv" --headerline -u cbguser -p
+mongoimport -d cbg -c cards --type csv --file "D:\e\funspace\nodeprograms\cbg\Book1.csv" --headerline
 
 Update cards with random number for shuffling properly. Run queries after login into database:
 db.cards.dropIndex( { shuffle: '2d' } );
 db.cards.find({shuffle: {$exists : false }}).forEach(function(cards) { db.cards.update({_id: cards._id}, {$set: {shuffle: [Math.random(), 0]}}); });
 db.cards.ensureIndex( { shuffle: '2d' } );
-db.cards.find( { shuffle : { $near : [Math.random(), 0] } } ).limit(2);
+db.cards.find( { shuffle : { $near : [Math.random(), 0] } } ).limit(2).pretty();
 
 starting the node server:
 node "D:\e\funspace\nodeprograms\cbg\server.js"

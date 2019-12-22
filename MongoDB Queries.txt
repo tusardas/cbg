@@ -83,7 +83,7 @@ db.cards.find(
 ).limit(5).pretty();
 
 
-7. Find cards who played more tests and odis
+7. Find cards who played more tests than odis
 --------------------------------------------------------------------------------------
 db.cards.find(
 	{$where : function() { return obj.tests_played >  obj.odis_played } }, 
